@@ -33,3 +33,35 @@ VALUES
     'jess@ufpr.br',
     '8c92n3o0'
   );
+
+
+INSERT INTO
+  Veiculos (Placa, Marca, Modelo, Ano, Disponivel, Cor, ValorHora)
+VALUES
+  (
+    'ABC1234',
+    'Toyota',
+    'Corolla',
+    2022,
+    TRUE,
+    'Prata',
+    50.75
+  );
+
+
+INSERT INTO
+  Locacoes (
+    DataInicio,
+    DataFim,
+    VeiculoPlaca,
+    ClienteCPF,
+    FuncionarioCPF
+  )
+VALUES
+  (
+    '2023-08-29',
+    '2023-09-05',
+    'ABC1234',
+    '5899099099',
+    '5899099088'
+  );

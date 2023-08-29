@@ -39,7 +39,7 @@ CREATE TABLE
 
 CREATE TABLE
   Locacoes(
-    Id INT(4),
+    Id SERIAL,
     DataInicio DATE,
     DataFim DATE,
     VeiculoPlaca VARCHAR(7),
