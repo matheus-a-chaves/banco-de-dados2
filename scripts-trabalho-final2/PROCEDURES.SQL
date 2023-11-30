@@ -24,9 +24,47 @@ BEGIN
     VALUES (@v_NovoPedidoId, p_Id_status_pedido, CURRENT_TIMESTAMP);
 END //
 
-DELIMITER ;
+CREATE PROCEDURE AtualizarStatusPedido(
+    IN p_Id_pedido INT,
+    IN p_Novo_Status INT
+)
+BEGIN
+    -- Verificar se o pedido existe
+    IF EXISTS (SELECT 1 FROM Pedidos WHERE Id_pedido = p_Id_pedido) THEN
+        -- Adicionar um registro ao Histórico de Status do Pedido
+        INSERT INTO Historico_Status_Pedido (Id_pedido, Id_status_pedido, Data_modificacao)
+        VALUES (p_Id_pedido, p_Novo_Status, CURRENT_TIMESTAMP);
+        
+        -- Atualizar o status do pedido na tabela Pedidos
+        UPDATE Pedidos
+        SET Id_status_pedido = p_Novo_Status,
+            Modificado_por_usuario = 'Sistema',
+            Data_modificacao = CURRENT_TIMESTAMP
+        WHERE Id_pedido = p_Id_pedido;
+        
+        SELECT 'Status do Pedido Atualizado com Sucesso!' AS Resultado;
+    ELSE
+        SELECT 'Pedido não encontrado.' AS Resultado;
+    END IF;
+END //
 
--- CHAMADA
+CREATE PROCEDURE ListarPedidosPorCliente(
+    IN p_Id_cliente INT
+)
+BEGIN
+    -- Selecionar todos os pedidos do cliente
+    SELECT Pedidos.*, Status_Pedido.Nome_status
+    FROM Pedidos
+    JOIN Status_Pedido ON Pedidos.Id_status_pedido = Status_Pedido.Id_status_pedido
+    WHERE Pedidos.Id_cliente = p_Id_cliente;
+END //
+
+-- Exemplos de chamada
+
 CALL AdicionarPedido(1, 2, 1, 1);
 
+CALL AtualizarStatusPedido(1, 2);
 
+CALL ListarPedidosPorCliente(1);
+
+DELIMITER ;

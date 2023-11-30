@@ -37,7 +37,7 @@ CREATE TABLE Produtos (
 );
 
 CREATE TABLE Pedidos (
-    Id_pedido INT PRIMARY KEY,
+    Id_pedido INT PRIMARY KEY DEFAULT 0,
     Data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Id_cliente INT,
     Id_funcionario INT,
@@ -56,7 +56,7 @@ CREATE TABLE Pedidos (
 -- Tabela de Itens do Pedido
 CREATE TABLE Itens_Pedido (
     Id_item_pedido INT PRIMARY KEY,
-    Id_pedido INT,
+    Id_pedido INT DEFAULT 0,
     Id_produto INT,
     Quantidade INT,
     Preco DECIMAL(10, 2),
@@ -66,8 +66,8 @@ CREATE TABLE Itens_Pedido (
 
 -- Tabela de Histórico de Status do Pedido
 CREATE TABLE Historico_Status_Pedido (
-    Id_historico_status INT PRIMARY KEY,
-    Id_pedido INT,
+    Id_historico_status INT PRIMARY KEY AUTO_INCREMENT,
+    Id_pedido INT DEFAULT 0,
     Id_status_pedido INT,
     Data_modificacao TIMESTAMP,
     FOREIGN KEY (Id_pedido) REFERENCES Pedidos(Id_pedido),
